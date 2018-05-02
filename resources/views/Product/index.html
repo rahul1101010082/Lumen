@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script type="text/javascript">
+		const url = "http://localhost:8000/api/v1/products/index";
+
+		var request = new Request(url,{
+			method : 'GET'
+		});
+
+		fetch(request)
+		    .then((resp) => resp.json())
+		    .then(function(data){
+		    	return data.map(function(product) {
+		    		console.log(product);
+		    	})
+		    })
+		    .catch(function(error){
+		    	console.log('wfvb ')
+		    });
+
+
+
+
+	</script>
+</head>
+<body>
+   <h1>wcvwvdcfv </h1>
+</body>
+</html>
