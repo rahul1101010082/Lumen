@@ -15,7 +15,7 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->group([ 'prefix' => 'api/v1' , 'middleware' => 'cors'] , function($router){
+$router->group([ 'prefix' => 'api/v1' ] , function($router){
 
     $router->get('products/index' , 'ProductController@index');
     $router->post('products/add' , 'ProductController@addProduct');

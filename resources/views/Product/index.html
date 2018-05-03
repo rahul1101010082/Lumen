@@ -1,30 +1,79 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
+
 <head>
-	<script type="text/javascript">
-		const url = "http://localhost:8000/api/v1/products/index";
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <title>Microservices App</title>
+    <style>
+        table, td, th {    
+            border: 1px solid #ddd;
+            text-align: left;
+            margin: 50px 50px 50px 50px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 80%;
+        }
 
-		var request = new Request(url,{
-			method : 'GET'
-		});
-
-		fetch(request)
-		    .then((resp) => resp.json())
-		    .then(function(data){
-		    	return data.map(function(product) {
-		    		console.log(product);
-		    	})
-		    })
-		    .catch(function(error){
-		    	console.log('wfvb ')
-		    });
-
-
-
-
-	</script>
+        th, td {
+            padding: 10px;
+        }
+        #myButton{
+           margin: 50px 0px 0px 50px;
+        }
+    </style>
 </head>
 <body>
-   <h1>wcvwvdcfv </h1>
+
+    <button type="button" id="myButton" class="float-left btn btn-primary">ADD</button>
+    <div id="dvTable"><div>
+        <script>
+            document.getElementById("myButton").onclick = function () {
+                location.href = "add.html";
+            };
+
+            var request = new XMLHttpRequest();
+            request.open('GET', 'http://localhost:8000/api/v1/products/index/', true);
+            request.onload = function () {
+
+                var data = JSON.parse(this.response);
+                if (request.status >= 200 && request.status < 400) {
+                    var users = new Array();
+                    users.push(["Name","Description" , "Price" ]);    
+                    data.forEach(user => {
+                        users.push([user.name,user.description,user.price]);
+                    });
+
+                    //Create a HTML Table element.
+                    var table = document.createElement("TABLE");
+                    table.border = "1";
+                    var columnCount = users[0].length;
+
+                    var row = table.insertRow(-1);
+                    for (var i = 0; i < columnCount; i++) {
+                        var headerCell = document.createElement("TH");
+                        headerCell.innerHTML = users[0][i];
+                        row.appendChild(headerCell);
+                    }
+                    for (var i = 1; i < users.length; i++) {
+                        row = table.insertRow(-1);
+                        for (var j = 0; j < columnCount; j++) {
+                            var cell = row.insertCell(-1);
+                            cell.innerHTML = users[i][j];
+                        }
+                    }
+                    var dvTable = document.getElementById("dvTable");
+                    dvTable.innerHTML = "";
+                    dvTable.appendChild(table);
+                  } else {
+                      console.log('error');
+                  }
+            }
+            request.send();
+        </script>
 </body>
+
 </html>
